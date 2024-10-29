@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+const cors = require('cors');
 // const modalRoutes = require('./routes/modelRoutes');
 // const modalRoutes=require('./routes/modalDataRoutes');
 // const interiorRoutes=require('./routes/InteriorRoutes');
@@ -10,6 +11,9 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cors({
+    origin:['http://localhost:3000']
+}))
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

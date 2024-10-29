@@ -56,6 +56,8 @@ const signup = async (req, res) => {
 // Get users function
 const getUsers = async (req, res) => {
     try {
+        const authHeader = req.headers['authorization'];
+        console.log(authHeader)
         const users = await User.find().select('-password -verificationCode'); // Exclude sensitive information
         res.json(users);
     } catch (error) {
@@ -67,7 +69,6 @@ const getUsers = async (req, res) => {
 const verify = async (req, res) => {
     try {
         const { email, verificationCode } = req.body;
-
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -168,6 +169,24 @@ const login = async (req, res) => {
     }
 };
 
+
+// delete user
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findOneAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 // Reset password function
 const resetPassword = async (req, res) => {
     try {
@@ -213,4 +232,5 @@ module.exports = {
     forgotPassword,
     resetPassword,
     getUsers,
+    deleteUser
 };

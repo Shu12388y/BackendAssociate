@@ -1,7 +1,7 @@
 // src/routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const { signup, verify, login, getUsers, forgotPassword, resetPassword } = require('../controllers/authController');
+const { signup, verify, login, getUsers, forgotPassword, resetPassword,deleteUser } = require('../controllers/authController');
 const { signupValidation, loginValidation } = require('../utils/validation');
 const { authenticateMiddleware } = require('../middleware/auth');
 
@@ -22,5 +22,7 @@ router.post('/forgot-password', forgotPassword);
 
 // Reset password
 router.post('/reset-password', resetPassword);
+
+router.delete('/users/:id',authenticateMiddleware,deleteUser);
 
 module.exports = router;
